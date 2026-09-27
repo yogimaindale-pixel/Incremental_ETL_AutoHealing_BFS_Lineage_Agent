@@ -1,0 +1,7 @@
+{
+  "approval_id": "appr_sample_001",
+  "incident_id": "inc_sample_001",
+  "runbook_id": "RB-RESET-CHK-002",
+  "risk_level": "HIGH",
+  "status": "PENDING"
+}

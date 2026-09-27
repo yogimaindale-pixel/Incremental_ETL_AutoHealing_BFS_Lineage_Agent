@@ -1,0 +1,18 @@
+sequenceDiagram
+    autonumber
+    participant Pipeline
+    participant Detector
+    participant Classifier
+    participant BFSLineage
+    participant RiskEngine
+    participant Executor
+    participant Validator
+
+    Pipeline->>Detector: Exception
+    Detector->>Classifier: FailureEvent
+    Classifier->>BFSLineage: Upstream RCA search
+    BFSLineage-->>Classifier: Root Cause Node
+    Classifier->>RiskEngine: Check risk policy
+    RiskEngine-->>Executor: Risk approved
+    Executor->>Validator: Runbook remediation
+    Validator-->>Pipeline: Recovered

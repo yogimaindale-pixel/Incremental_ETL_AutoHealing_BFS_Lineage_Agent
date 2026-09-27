@@ -1,0 +1,15 @@
+sequenceDiagram
+    autonumber
+    participant Source
+    participant Extractor
+    participant Loader
+    participant Target
+    participant Watermark
+
+    Extractor->>Watermark: Read last_watermark
+    Watermark-->>Extractor: watermark timestamp
+    Extractor->>Source: Query incremental batch
+    Source-->>Extractor: Dataframe batch
+    Extractor->>Loader: Deduplicate & stage
+    Loader->>Target: UPSERT records
+    Loader->>Watermark: Commit new watermark

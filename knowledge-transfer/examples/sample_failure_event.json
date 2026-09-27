@@ -1,0 +1,8 @@
+{
+  "event_id": "evt_sample_001",
+  "run_id": "run_sample_001",
+  "error_code": "TIMEOUT",
+  "error_message": "Database query timed out waiting for connection socket",
+  "job_name": "pipe_orders_incremental",
+  "correlation_id": "corr_sample_001"
+}

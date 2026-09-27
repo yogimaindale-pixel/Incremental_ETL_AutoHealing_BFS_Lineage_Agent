@@ -1,0 +1,3 @@
+Node ID,Name,Type,Depth,Path
+pipe_orders_incremental,Incremental Orders Loader,pipeline,1,source_orders -> pipe_orders_incremental
+fact_orders,Fact Orders Table,table,2,source_orders -> pipe_orders_incremental -> fact_orders
