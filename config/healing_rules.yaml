@@ -148,3 +148,19 @@ rules:
       dev: false
       test: true
       prod: true
+
+  - id: ETL-FAIL-TEST-001
+    version: 1
+    priority: 110
+    match:
+      error_codes: [REMEDIATION_FAILURE, FORCED_FAIL]
+      message_regex: '(?i)(forced runbook failure|remediation failure)'
+    classification: FORCED_REMEDIATION_FAILURE
+    runbook_id: RB-FAIL-TEST-001
+    allowed_environments: [local, dev, test, prod]
+    approval:
+      local: false
+      dev: false
+      test: false
+      prod: false
+

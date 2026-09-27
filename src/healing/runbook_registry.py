@@ -41,6 +41,8 @@ class RunbookRegistry:
         elif runbook_id == "RB-ESCALATE-001":
             logger.info("Runbook RB-ESCALATE-001 selected: Escalating to manual review.")
             return True
+        elif runbook_id == "RB-FAIL-TEST-001":
+            raise RunbookExecutionError("Simulated runbook execution failure for circuit breaker test")
         else:
             raise RunbookExecutionError(f"Unknown or unauthorized runbook_id '{runbook_id}'")
 
