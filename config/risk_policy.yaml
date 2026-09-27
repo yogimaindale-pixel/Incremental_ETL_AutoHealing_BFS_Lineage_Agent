@@ -1,0 +1,42 @@
+risk_policy:
+  READ_ONLY:
+    risk_level: READ_ONLY
+    requires_approval: false
+    description: "Diagnostic, query, or log collection actions."
+
+  LOW:
+    risk_level: LOW
+    requires_approval_by_env:
+      local: false
+      dev: false
+      test: false
+      prod: false
+    description: "Transient retries, wait operations, safe batch size reductions."
+
+  MEDIUM:
+    risk_level: MEDIUM
+    requires_approval_by_env:
+      local: false
+      dev: false
+      test: true
+      prod: true
+    description: "Data quarantines, partition creation, additive schema adjustments."
+
+  HIGH:
+    risk_level: HIGH
+    requires_approval_by_env:
+      local: true
+      dev: true
+      test: true
+      prod: true
+    description: "Checkpoint resets, watermarks adjustments, replay operations."
+
+  DESTRUCTIVE:
+    risk_level: DESTRUCTIVE
+    requires_approval_by_env:
+      local: true
+      dev: true
+      test: true
+      prod: true
+    enabled_in_prod: false
+    description: "Table truncates, deletes, or DDL breaking changes."

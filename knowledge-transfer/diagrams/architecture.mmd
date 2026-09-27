@@ -1,0 +1,15 @@
+graph TD
+    SourceDB[(Source DB)] --> Extractor[Incremental Extractor]
+    Extractor --> Staging[Deduplication & Staging]
+    Staging --> Loader[Incremental Loader]
+    Loader --> TargetDB[(Target DB)]
+    Loader --> Watermark[Watermark Manager]
+
+    Loader -- Exception --> Detector[Failure Detector]
+    Detector --> Classifier[Signature Classifier]
+    Classifier --> BFSLineage[BFS Lineage Engine]
+    BFSLineage --> RCA[Root Cause Engine]
+    RCA --> RiskPolicy[Risk Policy Engine]
+    RiskPolicy --> Executor[Remediation Executor]
+    Executor --> Validator[Validation Engine]
+    Validator --> Audit[Audit Event Log]

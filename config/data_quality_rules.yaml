@@ -1,0 +1,11 @@
+data_quality:
+  max_null_percentage:
+    order_id: 0.0
+    customer_id: 0.0
+    amount: 5.0
+  max_duplicate_ratio: 0.01
+  row_count_tolerance_percent: 10.0
+  valid_value_ranges:
+    amount:
+      min: 0.0
+      max: 1000000.0

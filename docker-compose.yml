@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  agent:
+    build: .
+    container_name: etl_autohealing_agent
+    environment:
+      - APP_ENV=local
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+      - ./artifacts:/app/artifacts
+    ports:
+      - "8000:8000"
+    command: python3 run_demo.py --all-scenarios

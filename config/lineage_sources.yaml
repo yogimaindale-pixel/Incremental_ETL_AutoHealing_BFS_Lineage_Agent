@@ -1,0 +1,89 @@
+lineage:
+  upstream_max_depth: 10
+  downstream_max_depth: 15
+  deterministic_sort: true
+  include_inactive: false
+  stop_at_system_boundary: false
+
+nodes:
+  - id: sys_source_db
+    name: "Source System SQLite"
+    type: system
+    environment: local
+
+  - id: source_orders
+    name: "source_orders"
+    type: table
+    environment: local
+
+  - id: source_customers
+    name: "source_customers"
+    type: table
+    environment: local
+
+  - id: pipe_orders_incremental
+    name: "pipe_orders_incremental"
+    type: pipeline
+    environment: local
+
+  - id: pipe_customers_incremental
+    name: "pipe_customers_incremental"
+    type: pipeline
+    environment: local
+
+  - id: fact_orders
+    name: "fact_orders"
+    type: table
+    environment: local
+
+  - id: dim_customers
+    name: "dim_customers"
+    type: table
+    environment: local
+
+  - id: rpt_sales_executive
+    name: "Executive Sales Dashboard Report"
+    type: report
+    environment: local
+
+  - id: api_orders_v1
+    name: "Orders REST API"
+    type: API
+    environment: local
+
+edges:
+  - source: sys_source_db
+    target: source_orders
+    type: PRODUCES
+
+  - source: sys_source_db
+    target: source_customers
+    type: PRODUCES
+
+  - source: source_orders
+    target: pipe_orders_incremental
+    type: READS_FROM
+
+  - source: source_customers
+    target: pipe_customers_incremental
+    type: READS_FROM
+
+  - source: pipe_orders_incremental
+    target: fact_orders
+    type: WRITES_TO
+
+  - source: pipe_customers_incremental
+    target: dim_customers
+    type: WRITES_TO
+
+  - source: fact_orders
+    target: rpt_sales_executive
+    type: DERIVES_FROM
+
+  - source: dim_customers
+    target: rpt_sales_executive
+    type: DERIVES_FROM
+
+  - source: fact_orders
+    target: api_orders_v1
+    type: PRODUCES

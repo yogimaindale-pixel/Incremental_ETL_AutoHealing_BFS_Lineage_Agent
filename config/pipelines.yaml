@@ -1,0 +1,30 @@
+pipelines:
+  - id: pipe_orders_incremental
+    name: "Incremental Orders Loader"
+    source:
+      type: sqlite
+      table: source_orders
+      key_column: order_id
+      watermark_column: updated_at
+    target:
+      type: sqlite
+      table: fact_orders
+      key_column: order_id
+    lookback_minutes: 60
+    batch_size: 1000
+    active: true
+
+  - id: pipe_customers_incremental
+    name: "Incremental Customers Loader"
+    source:
+      type: sqlite
+      table: source_customers
+      key_column: customer_id
+      watermark_column: updated_at
+    target:
+      type: sqlite
+      table: dim_customers
+      key_column: customer_id
+    lookback_minutes: 120
+    batch_size: 500
+    active: true

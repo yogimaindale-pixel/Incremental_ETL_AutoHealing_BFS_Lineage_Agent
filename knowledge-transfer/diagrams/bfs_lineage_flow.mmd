@@ -1,0 +1,5 @@
+graph LR
+    SourceOrders[source_orders] --> PipeOrders[pipe_orders_incremental]
+    PipeOrders --> FactOrders[fact_orders]
+    FactOrders --> Report[Executive Sales Dashboard]
+    FactOrders --> API[Orders API v1]

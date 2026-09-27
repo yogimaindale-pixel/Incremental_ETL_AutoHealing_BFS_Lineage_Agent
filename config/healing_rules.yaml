@@ -1,0 +1,150 @@
+rules:
+  - id: ETL-TRANSIENT-001
+    version: 1
+    priority: 10
+    match:
+      error_codes: [TIMEOUT, CONNECTION_RESET, NETWORK_ERROR]
+      message_regex: '(?i)(timeout|connection reset|network error)'
+    classification: TRANSIENT_CONNECTION
+    runbook_id: RB-RETRY-001
+    allowed_environments: [local, dev, test, prod]
+    approval:
+      local: false
+      dev: false
+      test: false
+      prod: false
+
+  - id: ETL-LATE-FILE-001
+    version: 1
+    priority: 20
+    match:
+      error_codes: [FILE_NOT_FOUND, LATE_FILE]
+      message_regex: '(?i)(file not found|no such file|late file)'
+    classification: SOURCE_FILE_LATE
+    runbook_id: RB-WAIT-FILE-001
+    allowed_environments: [local, dev, test, prod]
+    approval:
+      local: false
+      dev: false
+      test: false
+      prod: false
+
+  - id: ETL-DUP-KEY-001
+    version: 1
+    priority: 30
+    match:
+      error_codes: [DUPLICATE_KEY, UNIQUE_CONSTRAINT_VIOLATION]
+      message_regex: '(?i)(duplicate key|unique constraint|primary key)'
+    classification: DUPLICATE_BUSINESS_KEY
+    runbook_id: RB-QUARANTINE-001
+    allowed_environments: [local, dev, test, prod]
+    approval:
+      local: false
+      dev: false
+      test: true
+      prod: true
+
+  - id: ETL-STALE-CHK-001
+    version: 1
+    priority: 40
+    match:
+      error_codes: [STALE_WATERMARK, CHECKPOINT_MISMATCH]
+      message_regex: '(?i)(stale watermark|checkpoint mismatch|watermark ahead)'
+    classification: STALE_CHECKPOINT
+    runbook_id: RB-RESET-CHK-002
+    allowed_environments: [local, dev, test, prod]
+    approval:
+      local: true
+      dev: true
+      test: true
+      prod: true
+
+  - id: ETL-PART-MISSING-001
+    version: 1
+    priority: 50
+    match:
+      error_codes: [PARTITION_NOT_FOUND, MISSING_PARTITION]
+      message_regex: '(?i)(partition not found|missing partition)'
+    classification: TARGET_PARTITION_MISSING
+    runbook_id: RB-CREATE-PART-001
+    allowed_environments: [local, dev, test, prod]
+    approval:
+      local: true
+      dev: true
+      test: true
+      prod: true
+
+  - id: ETL-SCHEMA-ADDITIVE-001
+    version: 1
+    priority: 60
+    match:
+      error_codes: [ADDITIVE_SCHEMA_DRIFT, EXTRA_COLUMN]
+      message_regex: '(?i)(additive schema|new column added|extra column)'
+    classification: SCHEMA_ADDITIVE_DRIFT
+    runbook_id: RB-ADD-SCHEMA-001
+    allowed_environments: [local, dev, test, prod]
+    approval:
+      local: true
+      dev: true
+      test: true
+      prod: true
+
+  - id: ETL-SCHEMA-BREAKING-001
+    version: 1
+    priority: 70
+    match:
+      error_codes: [BREAKING_SCHEMA_DRIFT, COLUMN_MISSING, TYPE_MISMATCH]
+      message_regex: '(?i)(breaking schema|column missing|type mismatch)'
+    classification: SCHEMA_BREAKING_DRIFT
+    runbook_id: RB-ESCALATE-001
+    allowed_environments: [local, dev, test, prod]
+    approval:
+      local: true
+      dev: true
+      test: true
+      prod: true
+
+  - id: ETL-PERMISSION-001
+    version: 1
+    priority: 80
+    match:
+      error_codes: [ACCESS_DENIED, PERMISSION_DENIED, AUTH_FAILED]
+      message_regex: '(?i)(access denied|permission denied|authentication failed)'
+    classification: INSUFFICIENT_PERMISSION
+    runbook_id: RB-ESCALATE-001
+    allowed_environments: [local, dev, test, prod]
+    approval:
+      local: true
+      dev: true
+      test: true
+      prod: true
+
+  - id: ETL-RESOURCE-001
+    version: 1
+    priority: 90
+    match:
+      error_codes: [OUT_OF_MEMORY, OOM, RESOURCE_EXHAUSTED]
+      message_regex: '(?i)(out of memory|oom|resource exhausted)'
+    classification: RESOURCE_EXHAUSTION
+    runbook_id: RB-REDUCE-BATCH-001
+    allowed_environments: [local, dev, test, prod]
+    approval:
+      local: false
+      dev: false
+      test: false
+      prod: true
+
+  - id: ETL-DQ-BREACH-001
+    version: 1
+    priority: 100
+    match:
+      error_codes: [DQ_THRESHOLD_BREACH, NULL_VALUE_VIOLATION]
+      message_regex: '(?i)(dq breach|threshold exceeded|null value)'
+    classification: DATA_QUALITY_THRESHOLD_BREACH
+    runbook_id: RB-QUARANTINE-001
+    allowed_environments: [local, dev, test, prod]
+    approval:
+      local: false
+      dev: false
+      test: true
+      prod: true

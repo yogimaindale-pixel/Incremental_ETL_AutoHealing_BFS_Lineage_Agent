@@ -1,0 +1,21 @@
+environments:
+  local:
+    allow_auto_heal: true
+    require_approval_medium_risk: false
+    require_approval_high_risk: true
+    log_level: DEBUG
+  dev:
+    allow_auto_heal: true
+    require_approval_medium_risk: false
+    require_approval_high_risk: true
+    log_level: INFO
+  test:
+    allow_auto_heal: true
+    require_approval_medium_risk: true
+    require_approval_high_risk: true
+    log_level: INFO
+  prod:
+    allow_auto_heal: true
+    require_approval_medium_risk: true
+    require_approval_high_risk: true
+    log_level: WARNING
