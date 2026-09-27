@@ -23,8 +23,12 @@ class IncidentCoordinator:
     """Master orchestrator driving detection, diagnosis, remediation, validation, and audit flow."""
 
     def __init__(self, config_manager: ConfigManager, db_path: str = "data/control_plane.db"):
+        import os
         self.config_manager = config_manager
         self.db_path = db_path
+        db_dir = os.path.dirname(db_path)
+        if db_dir:
+            os.makedirs(db_dir, exist_ok=True)
         self.classifier = SignatureClassifier(config_manager)
         self.evidence_collector = EvidenceCollector(db_path)
         self.graph = GraphBuilder(db_path).build_from_yaml()

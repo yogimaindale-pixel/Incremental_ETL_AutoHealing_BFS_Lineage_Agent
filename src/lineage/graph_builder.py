@@ -29,7 +29,15 @@ class GraphBuilder:
         return graph
 
     def _persist_graph(self, nodes, edges):
+        import os
+        db_dir = os.path.dirname(self.db_path)
+        if db_dir:
+            os.makedirs(db_dir, exist_ok=True)
         conn = sqlite3.connect(self.db_path)
+        schema_file = "sql/control_schema.sql"
+        if os.path.exists(schema_file):
+            with open(schema_file, "r", encoding="utf-8") as f:
+                conn.executescript(f.read())
         cursor = conn.cursor()
         try:
             for n in nodes:
