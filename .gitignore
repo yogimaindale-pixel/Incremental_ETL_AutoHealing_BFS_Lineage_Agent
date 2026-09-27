@@ -24,3 +24,6 @@ artifacts/*
 .env
 .vscode/
 .idea/
+.venv/
+.agents/
+
