@@ -1,59 +1,54 @@
-# Incremental ETL Auto-Healing & BFS Data Lineage Agent
+# Incremental ETL Auto-Healing BFS Lineage Agent
 
-Deterministic, production-grade Incremental ETL Auto-Healing Agent combined with a Breadth-First Search (BFS) Data Lineage and Impact Analysis Engine.
+Welcome to the **Incremental ETL Auto-Healing BFS Lineage Agent Platform** (Simplified & Line-by-Line Commented Edition).
 
-## Features
-- **Incremental Ingestion with Watermarking**: Watermark tracking, lookback windows, key deduplication, staging, MERGE/UPSERT, and automatic quarantining of invalid rows.
-- **BFS Data Lineage Engine**: Cycle-safe directed property graph supporting upstream root cause analysis and downstream blast radius calculation with deterministic neighbor sorting.
-- **Signature Classification & RCA**: Priority-based error signature classifier and evidence-backed root cause candidate scoring.
-- **Policy-Governed Runbooks**: Allow-listed runbooks, risk-policy approval gates, idempotency enforcement, validation checks, and automatic rollbacks.
-- **Console / CLI Driven**: Fully operated via CLI console runner without requiring a web UI frontend.
-- **Immutable Control & Audit Plane**: Append-only state machine transitions and audit events in SQLite.
+This repository implements an enterprise-grade, autonomous data engineering system capable of detecting incremental ETL failures, classifying signatures, running Breadth-First Search (BFS) graph lineage traversals, selecting auto-healing runbooks, executing remediation, validating post-healing data quality, and managing circuit breaker rollbacks.
 
-## Project Structure
-```text
-.
-├── Makefile
-├── README.md
-├── pyproject.toml
-├── requirements.txt
-├── run_demo.py
-├── config/
-│   ├── data_quality_rules.yaml
-│   ├── environments.yaml
-│   ├── healing_rules.yaml
-│   ├── lineage_sources.yaml
-│   ├── pipelines.yaml
-│   └── risk_policy.yaml
-├── docs/
-├── knowledge-transfer/
-├── scripts/
-├── sql/
-├── src/
-│   ├── api/
-│   ├── common/
-│   ├── diagnosis/
-│   ├── healing/
-│   ├── ingestion/
-│   ├── lineage/
-│   ├── observability/
-│   ├── orchestration/
-│   ├── reporting/
-│   └── validation/
-└── tests/
-```
+---
 
-## Quick Start
+## 🚀 Quick Start Instructions
+
+### 1. Environment Setup
 ```bash
-# Bootstrap Environment
-bash scripts/bootstrap.sh
+# Clone the repository over SSH
+git clone git@github.com:yogimaindale-pixel/Incremental_ETL_AutoHealing_BFS_Lineage_Agent.git
+cd Incremental_ETL_AutoHealing_BFS_Lineage_Agent
 
-# Run Incremental ETL & All 12 Demo Scenarios in Console
-python3 run_demo.py --all-scenarios
+# Create and activate local Python virtual environment
+python3 -m venv venv
+source venv/bin/activate
 
-# Run Test Suite
-bash scripts/run_tests.sh
+# Install required packages
+pip install -r requirements.txt
+pip install httpx
 ```
 
-## License
-MIT
+### 2. Run Demo Walkthrough (12 Failure Scenarios)
+Execute the complete end-to-end incident detection and auto-healing suite:
+```bash
+PYTHONPATH=src python3 run_demo.py
+```
+
+### 3. Run Automated Tests
+```bash
+./venv/bin/pytest -v
+```
+
+---
+
+## 🏛️ Architecture & Incident State Machine
+
+```
+[ Failure Event ] ──► DETECTED ──► NORMALIZED ──► CLASSIFIED ──► EVIDENCE_COLLECTED
+                                                                      │
+[ RECOVERED / CLOSED ] ◄── VALIDATING ◄── REMEDIATING ◄── LINEAGE_TRAVERSED (BFS)
+                                 │
+                          [ ROLLED_BACK / ESCALATED ]
+```
+
+---
+
+## 📚 Complete Documentation Catalog
+
+* 📘 [DOCUMENTATION.md](file:///config/Desktop/Incremental_ETL_AutoHealing_BFS_Lineage_Agent/DOCUMENTATION.md): Deep-dive technical requirements, architecture design, database schemas, and signature classification rules.
+* 🎓 [KNOWLEDGE_TRANSFER.md](file:///config/Desktop/Incremental_ETL_AutoHealing_BFS_Lineage_Agent/KNOWLEDGE_TRANSFER.md): Junior developer onboarding guide, concept explainers (BFS Lineage, State Machine, Auto-Healing Runbooks), and step-by-step hands-on tutorials.
